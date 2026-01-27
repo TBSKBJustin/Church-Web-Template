@@ -1,4 +1,4 @@
-# 📖 教会网站模板项目说明（Astro + Decap CMS + GitHub + Cloudflare Pages）
+# 📖 教会网站模板项目说明（Astro + Decap CMS + GitHub Pages）
 
 本项目是一个 **现代化、开源、可定制** 的教会网站模板系统，采用 **静态网站 + 内容管理后台（CMS）** 的架构设计。
 
@@ -21,19 +21,19 @@ Decap CMS（/admin 后台）
    ↓
 GitHub 仓库（代码 + 内容）
    ↓
-Cloudflare Pages（自动构建 & CDN）
+GitHub Pages（自动构建 & 部署）
    ↓
-访客访问（全球高速）
+访客访问
 ```
 
 ### 各组件角色说明
 
 | 组件                   | 角色                                  |
 | -------------------- | ----------------------------------- |
-| **Astro**            | 静态网站生成器，定义网站页面结构与样式                 |
-| **Decap CMS**        | 内容管理后台（贴文发布、编辑）                     |
-| **GitHub**           | 内容与代码的唯一存储源（Single Source of Truth） |
-| **Cloudflare Pages** | 自动构建、部署与全球 CDN 托管                   |
+| **Astro**        | 静态网站生成器，定义网站页面结构与样式                 |
+| **Decap CMS**    | 内容管理后台（贴文发布、编辑）                     |
+| **GitHub**       | 内容与代码的唯一存储源（Single Source of Truth） |
+| **GitHub Pages** | 自动构建、部署与托管静态网站                      |
 
 ---
 
@@ -136,10 +136,10 @@ https://你的域名/admin
 3. 新建贴文
 4. 填写内容（标题 / 分类 / 标签 / YouTube / 缩略图）
 5. 点击 **Publish**
-6. 网站将在约 30–60 秒内自动更新
+6. 网站将在约 1-2 分钟内自动更新
 
 > ✅ 同工 **不需要** 会 Git
-> ✅ 同工 **不需要** 知道 Astro / Cloudflare
+> ✅ 同工 **不需要** 知道 Astro / GitHub Pages
 
 ---
 
@@ -148,44 +148,77 @@ https://你的域名/admin
 * GitHub 仓库为 **内容与代码的唯一来源**
 * 只有被授权的 GitHub 帐号才能发布内容
 * 网站前台为纯静态页面，无数据库、无后端攻击面
-* 后台（/admin）可搭配 Cloudflare Access 进行额外保护（可选）
+* 后台（/admin）通过 GitHub OAuth 进行身份验证
 
 ---
 
 ## 🚀 部署流程（一次性设置）
 
-1. 本地开发（Astro）
+详细的部署说明请查看：[GITHUB_PAGES_DEPLOY.md](GITHUB_PAGES_DEPLOY.md)
+
+### 快速开始
+
+1. **本地开发**
 
    ```bash
    npm install
    npm run dev
    ```
 
-2. 推送至 GitHub
+2. **创建 GitHub 仓库并推送代码**
 
    ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/your-username/your-repo-name.git
+   git push -u origin main
+   ```
+
+3. **配置 GitHub Pages**
+
+   * 进入仓库 Settings > Pages
+   * Source 选择 "GitHub Actions"
+   * 保存设置
+
+4. **更新 astro.config.mjs**
+
+   ```javascript
+   export default defineConfig({
+     site: 'https://your-username.github.io',
+     base: '/your-repo-name', // 仓库名称
+     // ...
+   });
+   ```
+
+5. **推送代码触发自动部署**
+
+   ```bash
+   git add .
+   git commit -m "Configure for GitHub Pages"
    git push
    ```
 
-3. Cloudflare Pages：
+6. **访问网站**
 
-   * 连接 GitHub 仓库
-   * 构建命令：`npm run build`
-   * 输出目录：`dist`
-   * Framework preset: Astro
+   部署完成后访问：`https://your-username.github.io/your-repo-name`
 
-   > **注意**：项目已包含 `wrangler.jsonc` 配置文件，用于 Cloudflare Pages 部署。
+### 自定义域名（可选）
 
-4. 绑定自定义域名（可继续使用 GoDaddy 域名）
+如果要使用自己的域名（如 GoDaddy 购买的域名）：
 
-5. 启用 HTTPS（自动）
+1. 在 GitHub 仓库 Settings > Pages > Custom domain 中添加域名
+2. 在域名提供商处配置 DNS 记录（详见 [GITHUB_PAGES_DEPLOY.md](GITHUB_PAGES_DEPLOY.md)）
+3. 更新 `astro.config.mjs` 中的 `site` 和 `base` 配置
 
 ---
 
 ## 🔄 内容更新流程（长期）
 
 * 内容更新：由 Decap CMS 自动完成
-* 网站构建：Cloudflare Pages 自动完成
+* 网站构建：GitHub Actions 自动完成
+* 部署上线：GitHub Pages 自动完成
 * 不需要：
 
   * SSH
@@ -200,10 +233,9 @@ https://你的域名/admin
 要接手本网站，只需要：
 
 1. GitHub 仓库访问权限
-2. Cloudflare Pages 项目访问权限
-3. 域名管理权限
+2. 域名管理权限（如使用自定义域名）
 
-不依赖任何个人电脑或服务器。
+不依赖任何个人电脑或服务器。GitHub Pages 提供完全托管的服务。
 
 ---
 
