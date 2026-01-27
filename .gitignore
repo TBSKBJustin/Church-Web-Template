@@ -1,5 +1,6 @@
 # build output
-# dist/ - commented out for GitHub Pages deployment from branch
+dist/
+# docs/ - commented out for GitHub Pages deployment
 .output/
 
 # dependencies
