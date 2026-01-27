@@ -1,5 +1,5 @@
 # build output
-dist/
+# dist/ - commented out for GitHub Pages deployment from branch
 .output/
 
 # dependencies
