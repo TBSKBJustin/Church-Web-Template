@@ -91,6 +91,67 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-primary);
 }
 
+/* Dropdown Menu */
+.nav-dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-link-text {
+  color: var(--color-text);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar.transparent .nav-link-text {
+  color: white;
+}
+
+.nav-link-text:hover {
+  color: var(--color-primary);
+}
+
+.navbar.transparent .nav-link-text:hover {
+  color: var(--color-primary);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  min-width: 180px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 8px 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  margin-top: 10px;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 12px 20px;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  background: var(--color-gray);
+  color: var(--color-primary);
+}
+
 /* Hero Section */
 .hero {
   position: relative;
