@@ -1,0 +1,153 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Our Team - Church Name" lang="en">
+  <main>
+    <div class="page-header" style="background: url('/images/team-bg.jpg') center/cover;">
+      <div class="container">
+        <h1>Our Team</h1>
+        <p>Ministry Team</p>
+      </div>
+    </div>
+
+    <section class="team-section">
+      <div class="container">
+        <div class="team-grid">
+          <!-- Senior Pastor -->
+          <div class="team-member">
+            <div class="member-photo">
+              <img src="/images/team/placeholder.jpg" alt="Senior Pastor" />
+            </div>
+            <h3>Pastor Name, Ph.D.</h3>
+            <p class="role">Senior Pastor</p>
+            <p class="bio">
+              Add detailed information about the pastor here, including education background, ministry experience, theological training, and current roles.
+            </p>
+          </div>
+
+          <!-- Christian Education Director -->
+          <div class="team-member">
+            <div class="member-photo">
+              <img src="/images/team/placeholder.jpg" alt="Christian Education Director" />
+            </div>
+            <h3>Staff Member Name</h3>
+            <p class="role">Christian Education Director</p>
+            <p class="bio">
+              Add detailed information about this staff member here, including education background and ministry experience.
+            </p>
+          </div>
+
+          <!-- Elder -->
+          <div class="team-member">
+            <div class="member-photo">
+              <img src="/images/team/placeholder.jpg" alt="Elder" />
+            </div>
+            <h3>Elder Name</h3>
+            <p class="role">Elder</p>
+            <p class="bio">
+              Add detailed information about the elder here, including background and ministry experience.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .page-header {
+    color: white;
+    padding: 8rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .page-header h1 {
+    font-size: 3rem;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  }
+
+  .page-header p {
+    font-size: 1.25rem;
+    opacity: 0.95;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+  }
+
+  .team-section {
+    padding: 4rem 2rem;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+  }
+
+  .team-member {
+    text-align: center;
+    background: var(--color-bg-soft);
+    padding: 2rem;
+    border-radius: 12px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .member-photo {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--color-accent);
+  }
+
+  .member-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .team-member h3 {
+    font-size: 1.4rem;
+    margin: 1rem 0 0.5rem 0;
+    color: var(--color-text-main);
+  }
+
+  .team-member .role {
+    color: var(--color-accent);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .team-member .bio {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 768px) {
+    .page-header h1 {
+      font-size: 2rem;
+    }
+
+    .page-header p {
+      font-size: 1rem;
+    }
+
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

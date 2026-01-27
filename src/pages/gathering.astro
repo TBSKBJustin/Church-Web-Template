@@ -1,0 +1,374 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="聚會資訊 - 教會名稱">
+  <main>
+    <div class="page-header" style="background: url('/images/gathering-bg.jpg') center/cover;">
+      <div class="container">
+        <h1>聚會資訊</h1>
+        <p>歡迎參加我們的聚會</p>
+      </div>
+    </div>
+
+    <section class="gathering-section">
+      <div class="container">
+        <h2 class="section-title">星期日聚會</h2>
+        
+        <div class="gathering-grid">
+          <!-- 禱告會 -->
+          <div class="gathering-card">
+            <h3>禱告會</h3>
+            <div class="details">
+              <p><strong>時間：</strong>9:00 AM – 9:20 AM</p>
+              <p><strong>語言：</strong>國語/英語</p>
+            </div>
+          </div>
+
+          <!-- 主日敬拜 -->
+          <div class="gathering-card highlight">
+            <h3>主日敬拜</h3>
+            <div class="details">
+              <p><strong>時間：</strong>9:30 AM – 10:45 AM</p>
+              <p><strong>語言：</strong>國語/英語</p>
+            </div>
+            <p class="description">
+              主日敬拜是我們一週中最重要的聚會，
+              讓我們一起敬拜神、聆聽神的話語。
+            </p>
+          </div>
+
+          <!-- 主日學 -->
+          <div class="gathering-card">
+            <h3>主日學</h3>
+            <div class="details">
+              <p><strong>時間：</strong>11:15 AM – 12:15 PM</p>
+              <p><strong>語言：</strong>國語/英語（分開）</p>
+            </div>
+          </div>
+
+          <!-- 福音聚會 -->
+          <div class="gathering-card">
+            <h3>福音聚會</h3>
+            <div class="details">
+              <p><strong>時間：</strong>11:15 AM – 12:15 PM</p>
+              <p><strong>語言：</strong>國語</p>
+            </div>
+          </div>
+
+          <!-- 學生福音聚會 -->
+          <div class="gathering-card">
+            <h3>學生福音聚會</h3>
+            <div class="details">
+              <p><strong>時間：</strong>11:15 AM – 12:15 PM</p>
+              <p><strong>語言：</strong>國語</p>
+            </div>
+          </div>
+
+          <!-- 兒童主日學 -->
+          <div class="gathering-card">
+            <h3>兒童主日學</h3>
+            <div class="details">
+              <p><strong>時間：</strong>9:30 AM – 12:15 PM</p>
+              <p><strong>語言：</strong>國語/英語</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 愛宴/午餐 -->
+        <div class="special-section">
+          <h3>愛宴/午餐</h3>
+          <div class="schedule-details">
+            <p><strong>愛宴：</strong>12:15 PM（每月第一個星期日）</p>
+            <p><strong>午餐：</strong>12:15 PM（每月第二、四個星期日）</p>
+          </div>
+        </div>
+
+        <!-- 查經禱告會 -->
+        <div class="special-section">
+          <h3>查經禱告會</h3>
+          <div class="schedule-details">
+            <p><strong>時間：</strong>7:30 PM – 8:45 PM</p>
+            <p><strong>語言：</strong>國語</p>
+            <p><strong>日期：</strong>每月第一、二、四個星期日</p>
+          </div>
+        </div>
+
+        <!-- 家庭團契 -->
+        <div class="special-section">
+          <h3>家庭團契</h3>
+          <div class="schedule-details">
+            <p><strong>時間：</strong>6:30 PM – 8:30 PM</p>
+            <p><strong>語言：</strong>國語</p>
+            <p><strong>日期：</strong>每月第三個星期日（提供愛宴）</p>
+          </div>
+        </div>
+
+        <!-- 地址資訊 -->
+        <div class="address-section">
+          <h2>教會地址</h2>
+          <p class="address">
+            <strong>地址：</strong>[您的教會地址]<br>
+            <strong>停車：</strong>教會停車場<br>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- YouTube Actions Section -->
+    <section class="youtube-actions">
+      <div class="container">
+        <h2>線上參與聚會</h2>
+        <p class="section-description">無法親臨現場？在 YouTube 上與我們一起敬拜</p>
+        <div class="action-buttons">
+          <a href="#" target="_blank" class="btn-youtube btn-recordings">
+            觀看錄像
+          </a>
+          <a href="#" target="_blank" class="btn-youtube btn-live">
+            觀看直播
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .page-header {
+    color: white;
+    padding: 8rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .page-header h1 {
+    font-size: 3rem;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  }
+
+  .page-header p {
+    font-size: 1.25rem;
+    opacity: 0.95;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+  }
+
+  .gathering-section {
+    padding: 4rem 2rem;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--color-accent);
+    margin-bottom: 3rem;
+  }
+
+  .gathering-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .gathering-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: box-shadow 0.3s;
+  }
+
+  .gathering-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .gathering-card.highlight {
+    border: 2px solid var(--color-accent);
+    background: linear-gradient(135deg, var(--color-bg-soft) 0%, #ffffff 100%);
+  }
+
+  .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .gathering-card h3 {
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+  }
+
+  .details {
+    background: var(--color-bg-soft);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+
+  .details p {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+    color: var(--color-text-main);
+  }
+
+  .description {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin-top: 0.75rem;
+  }
+
+  .special-section {
+    background: white;
+    border: 2px solid var(--color-accent);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .special-section .icon {
+    font-size: 3rem;
+    margin: 0;
+  }
+
+  .special-section h3 {
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .schedule-details {
+    flex: 1;
+  }
+
+  .schedule-details p {
+    margin: 0.75rem 0;
+    line-height: 1.8;
+    color: var(--color-text-main);
+    font-size: 1.05rem;
+  }
+
+  .address-section {
+    text-align: center;
+    padding: 3rem;
+    background: var(--color-bg-soft);
+    border-radius: 12px;
+    margin-top: 3rem;
+  }
+
+  .address-section h2 {
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+  }
+
+  .address {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: var(--color-text-main);
+  }
+
+  @media (max-width: 768px) {
+    .gathering-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .special-section {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  /* YouTube Actions Section */
+  .youtube-actions {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+    text-align: center;
+  }
+
+  .youtube-actions h2 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-description {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-youtube {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    justify-content: center;
+  }
+
+  .btn-youtube .icon {
+    font-size: 1.8rem;
+  }
+
+  .btn-recordings {
+    background: white;
+    color: var(--color-accent);
+    border: 2px solid white;
+  }
+
+  .btn-recordings:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .btn-live {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-live:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  @media (max-width: 768px) {
+    .youtube-actions h2 {
+      font-size: 2rem;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn-youtube {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>

@@ -1,0 +1,1178 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts');
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+// 收集所有筛选选项
+const allCategories = [...new Set(allPosts.flatMap(post => post.data.categories))];
+const allTypes = [...new Set(allPosts.flatMap(post => post.data.type))];
+const allServices = [...new Set(allPosts.flatMap(post => post.data.service))];
+const allSpeakers = [...new Set(allPosts.flatMap(post => post.data.speaker))];
+const allSeries = [...new Set(allPosts.flatMap(post => post.data.series))];
+const allBooks = [...new Set(allPosts.flatMap(post => post.data.book))];
+---
+
+<Layout title="所有貼文 - 教會名稱">
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <h1>所有貼文</h1>
+        <p>分享教會的消息與見證</p>
+      </div>
+    </div>
+
+    <section class="posts-section">
+      <div class="container-full">
+        <!-- 搜索和排序栏 -->
+        <div class="search-bar">
+          <div class="search-container">
+            <input 
+              type="text" 
+              id="searchInput" 
+              placeholder="搜索貼文標題、內容..." 
+              class="search-input"
+            />
+            <button class="search-btn">搜索</button>
+          </div>
+          <div class="controls-right">
+            <button id="advancedFilterToggle" class="advanced-filter-toggle">
+              高級篩選
+            </button>
+            <div class="sort-container">
+              <label for="sortSelect">排序：</label>
+              <select id="sortSelect" class="sort-select">
+                <option value="newest">從新到舊</option>
+                <option value="oldest">從舊到新</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 高级筛选器区域（默认隐藏） -->
+        <div class="filters-section" id="filtersSection" style="display: none;">
+          <!-- 類型 Type -->
+          {allTypes.length > 0 && (
+            <div class="filter-group">
+              <label class="filter-label">類型：</label>
+              <div class="filter-buttons">
+                <button class="filter-btn active" data-filter-type="type" data-value="all">全部</button>
+                {allTypes.map(type => 
+                  <button class="filter-btn" data-filter-type="type" data-value={type}>{type}</button>
+                )}
+              </div>
+            </div>
+          )}
+
+          <!-- 聚會 Service -->
+          {allServices.length > 0 && (
+            <div class="filter-group">
+              <label class="filter-label">聚會：</label>
+              <div class="filter-buttons">
+                <button class="filter-btn active" data-filter-type="service" data-value="all">全部</button>
+                {allServices.map(service => 
+                  <button class="filter-btn" data-filter-type="service" data-value={service}>{service}</button>
+                )}
+              </div>
+            </div>
+          )}
+
+          <!-- 講員 Speaker -->
+          {allSpeakers.length > 0 && (
+            <div class="filter-group">
+              <label class="filter-label">講員：</label>
+              <div class="filter-buttons">
+                <button class="filter-btn active" data-filter-type="speaker" data-value="all">全部</button>
+                {allSpeakers.map(speaker => 
+                  <button class="filter-btn" data-filter-type="speaker" data-value={speaker}>{speaker}</button>
+                )}
+              </div>
+            </div>
+          )}
+
+          <!-- 系列 Series -->
+          {allSeries.length > 0 && (
+            <div class="filter-group">
+              <label class="filter-label">系列：</label>
+              <div class="filter-buttons">
+                <button class="filter-btn active" data-filter-type="series" data-value="all">全部</button>
+                {allSeries.map(series => 
+                  <button class="filter-btn" data-filter-type="series" data-value={series}>{series}</button>
+                )}
+              </div>
+            </div>
+          )}
+
+          <!-- 書 Books -->
+          {allBooks.length > 0 && (
+            <div class="filter-group">
+              <label class="filter-label">書：</label>
+              <div class="filter-buttons">
+                <button class="filter-btn active" data-filter-type="book" data-value="all">全部</button>
+                {allBooks.map(book => 
+                  <button class="filter-btn" data-filter-type="book" data-value={book}>{book}</button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <!-- 分页控制栏 -->
+        <div class="pagination-controls">
+          <div class="items-per-page">
+            <label for="itemsPerPage">每頁顯示：</label>
+            <select id="itemsPerPage" class="items-select">
+              <option value="20" selected>20</option>
+              <option value="60">60</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="results-info">
+            <span id="resultsInfo">顯示 1-20 of 100</span>
+          </div>
+        </div>
+
+        <div class="youtube-grid" id="postsGrid">
+          {sortedPosts.map(post => {
+            const postCategories = post.data.categories.join(',');
+            const hasThumb = post.data.thumbnail;
+            const thumbUrl = post.data.thumbnail || '';
+            const postSlug = post.slug;
+            const postTitle = post.data.title;
+            const postAuthor = post.data.author || '';
+            const postDate = post.data.publishDate.toLocaleDateString('zh-TW');
+            const postExcerpt = post.data.excerpt || '';
+            const displayCats = post.data.categories.slice(0, 2);
+            
+            return (
+              <article 
+                class="video-card" 
+                data-categories={postCategories}
+                data-type={post.data.type.join(',')}
+                data-service={post.data.service.join(',')}
+                data-speaker={post.data.speaker.join(',')}
+                data-series={post.data.series.join(',')}
+                data-book={post.data.book.join(',')}
+                data-date={post.data.publishDate.valueOf()}
+              >
+                <a href={`/posts/${postSlug}`} class="thumbnail-link">
+                  {hasThumb && <img src={thumbUrl} alt={postTitle} class="thumbnail" />}
+                  {!hasThumb && <div class="thumbnail-placeholder">📄</div>}
+                </a>
+                <div class="video-info">
+                  <h3 class="video-title">
+                    <a href={`/posts/${postSlug}`}>{postTitle}</a>
+                  </h3>
+                  <div class="video-meta">
+                    {postAuthor && <span class="author">{postAuthor}</span>}
+                    <time>{postDate}</time>
+                  </div>
+                  {postExcerpt && <p class="video-description">{postExcerpt}</p>}
+                  <div class="video-tags">
+                    {displayCats.map(cat => <span class="tag-badge category">{cat}</span>)}
+                    {post.data.speaker.slice(0, 2).map(speaker => <span class="tag-badge speaker">{speaker}</span>)}
+                    {post.data.book.slice(0, 3).map(book => <span class="tag-badge book">{book}</span>)}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <!-- 分页导航 -->
+        <div class="pagination-nav" id="paginationNav">
+          <button class="page-btn" id="prevPage" disabled>← 上一頁</button>
+          <div class="page-numbers" id="pageNumbers"></div>
+          <button class="page-btn" id="nextPage">下一頁 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- YouTube Actions Section -->
+    <section class="youtube-actions">
+      <div class="container">
+        <h2>更多講道內容</h2>
+        <p class="section-description">在 YouTube 頻道探索更多精彩內容</p>
+        <div class="action-buttons">
+          <a href="#" target="_blank" class="btn-youtube btn-recordings">
+            觀看錄像
+          </a>
+          <a href="#" target="_blank" class="btn-youtube btn-live">
+            觀看直播
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+  const sortSelect = document.getElementById('sortSelect') as HTMLSelectElement;
+  const postsGrid = document.getElementById('postsGrid') as HTMLElement;
+  const cards = Array.from(postsGrid?.querySelectorAll('.video-card') || []);
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const advancedFilterToggle = document.getElementById('advancedFilterToggle') as HTMLButtonElement;
+  const filtersSection = document.getElementById('filtersSection') as HTMLElement;
+  const itemsPerPageSelect = document.getElementById('itemsPerPage') as HTMLSelectElement;
+  const resultsInfo = document.getElementById('resultsInfo') as HTMLElement;
+  const prevPageBtn = document.getElementById('prevPage') as HTMLButtonElement;
+  const nextPageBtn = document.getElementById('nextPage') as HTMLButtonElement;
+  const pageNumbers = document.getElementById('pageNumbers') as HTMLElement;
+
+  // 筛选器状态
+  const filters = {
+    search: '',
+    type: 'all',
+    service: 'all',
+    speaker: 'all',
+    series: 'all',
+    book: 'all'
+  };
+
+  // 分页状态
+  let currentPage = 1;
+  let itemsPerPage = 20;
+  let filteredCards: HTMLElement[] = [];
+
+  // 高级筛选toggle
+  advancedFilterToggle?.addEventListener('click', () => {
+    const isHidden = filtersSection.style.display === 'none';
+    filtersSection.style.display = isHidden ? 'block' : 'none';
+    advancedFilterToggle.textContent = isHidden ? '高級篩選' : '高級篩選';
+  });
+
+  // 每页显示数量改变
+  itemsPerPageSelect?.addEventListener('change', () => {
+    itemsPerPage = parseInt(itemsPerPageSelect.value);
+    currentPage = 1;
+    updatePagination();
+  });
+
+  // 排序功能
+  sortSelect?.addEventListener('change', () => {
+    const sortValue = sortSelect.value;
+    const sortedCards = [...cards].sort((a, b) => {
+      const dateA = parseInt((a as HTMLElement).dataset.date || '0');
+      const dateB = parseInt((b as HTMLElement).dataset.date || '0');
+      return sortValue === 'newest' ? dateB - dateA : dateA - dateB;
+    });
+
+    // 重新排列DOM
+    sortedCards.forEach(card => postsGrid.appendChild(card));
+    
+    // 应用当前筛选
+    applyFilters();
+  });
+
+  // 搜索功能
+  searchInput?.addEventListener('input', (e) => {
+    const target = e.target as HTMLInputElement;
+    filters.search = target.value.toLowerCase();
+    updateAvailableFilters();
+    applyFilters();
+  });
+
+  // 筛选按钮事件
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const element = btn as HTMLElement;
+      const filterType = element.dataset.filterType;
+      const value = element.dataset.value;
+
+      if (!filterType || !value) return;
+
+      // 更新同类按钮的active状态
+      const sameTypeButtons = document.querySelectorAll(`[data-filter-type="${filterType}"]`);
+      sameTypeButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // 更新筛选状态
+      filters[filterType as keyof typeof filters] = value;
+      
+      // 更新其他筛选器的可用选项
+      updateAvailableFilters();
+      
+      applyFilters();
+    });
+  });
+
+  // 更新筛选器可用选项
+  function updateAvailableFilters() {
+    // 为每个筛选类型分别计算可用选项
+    updateFilterOptionsFor('type');
+    updateFilterOptionsFor('service');
+    updateFilterOptionsFor('speaker');
+    updateFilterOptionsFor('series');
+    updateFilterOptionsFor('book');
+  }
+
+  // 为特定筛选类型更新可用选项
+  function updateFilterOptionsFor(targetFilterType: string) {
+    // 收集符合其他筛选条件的文章（排除当前正在更新的筛选类型）
+    const availableCards = cards.filter(card => {
+      const element = card as HTMLElement;
+      const title = element.querySelector('.video-title')?.textContent?.toLowerCase() || '';
+      const description = element.querySelector('.video-description')?.textContent?.toLowerCase() || '';
+      
+      // 搜索匹配
+      const matchesSearch = !filters.search || 
+        title.includes(filters.search) || 
+        description.includes(filters.search);
+
+      // 各类筛选匹配（排除目标筛选类型）
+      const typeValues = (element.dataset.type || '').split(',').filter(v => v.trim());
+      const serviceValues = (element.dataset.service || '').split(',').filter(v => v.trim());
+      const speakerValues = (element.dataset.speaker || '').split(',').filter(v => v.trim());
+      const seriesValues = (element.dataset.series || '').split(',').filter(v => v.trim());
+      const bookValues = (element.dataset.book || '').split(',').filter(v => v.trim());
+      
+      const matchesType = targetFilterType === 'type' || filters.type === 'all' || typeValues.includes(filters.type);
+      const matchesService = targetFilterType === 'service' || filters.service === 'all' || serviceValues.includes(filters.service);
+      const matchesSpeaker = targetFilterType === 'speaker' || filters.speaker === 'all' || speakerValues.includes(filters.speaker);
+      const matchesSeries = targetFilterType === 'series' || filters.series === 'all' || seriesValues.includes(filters.series);
+      const matchesBook = targetFilterType === 'book' || filters.book === 'all' || bookValues.includes(filters.book);
+
+      return matchesSearch && matchesType && matchesService && matchesSpeaker && matchesSeries && matchesBook;
+    });
+
+    // 收集该筛选类型的可用值（处理逗号分隔的多值）
+    const availableValues = new Set<string>();
+    availableCards.forEach(card => {
+      const element = card as HTMLElement;
+      const value = element.dataset[targetFilterType];
+      if (value) {
+        // 分割逗号分隔的值并添加到集合中
+        value.split(',').filter(v => v.trim()).forEach(v => availableValues.add(v.trim()));
+      }
+    });
+
+    // 更新按钮显示
+    updateFilterButtons(targetFilterType, availableValues);
+  }
+
+  // 更新特定类型筛选器的按钮显示
+  function updateFilterButtons(filterType: string, availableValues: Set<string>) {
+    const buttons = document.querySelectorAll(`[data-filter-type="${filterType}"]`);
+    buttons.forEach(btn => {
+      const element = btn as HTMLElement;
+      const value = element.dataset.value;
+      
+      // "全部"按钮始终显示
+      if (value === 'all') {
+        element.style.display = '';
+        return;
+      }
+      
+      // 其他按钮根据是否在可用值中决定显示/隐藏
+      if (value && availableValues.has(value)) {
+        element.style.display = '';
+      } else {
+        element.style.display = 'none';
+      }
+    });
+  }
+
+  // 应用所有筛选
+  function applyFilters() {
+    filteredCards = [];
+    
+    cards.forEach(card => {
+      const element = card as HTMLElement;
+      const title = element.querySelector('.video-title')?.textContent?.toLowerCase() || '';
+      const description = element.querySelector('.video-description')?.textContent?.toLowerCase() || '';
+      
+      // 搜索匹配
+      const matchesSearch = !filters.search || 
+        title.includes(filters.search) || 
+        description.includes(filters.search);
+
+      // 各类筛选匹配（处理逗号分隔的多值）
+      const typeValues = (element.dataset.type || '').split(',').filter(v => v.trim());
+      const serviceValues = (element.dataset.service || '').split(',').filter(v => v.trim());
+      const speakerValues = (element.dataset.speaker || '').split(',').filter(v => v.trim());
+      const seriesValues = (element.dataset.series || '').split(',').filter(v => v.trim());
+      const bookValues = (element.dataset.book || '').split(',').filter(v => v.trim());
+      
+      const matchesType = filters.type === 'all' || typeValues.includes(filters.type);
+      const matchesService = filters.service === 'all' || serviceValues.includes(filters.service);
+      const matchesSpeaker = filters.speaker === 'all' || speakerValues.includes(filters.speaker);
+      const matchesSeries = filters.series === 'all' || seriesValues.includes(filters.series);
+      const matchesBook = filters.book === 'all' || bookValues.includes(filters.book);
+
+      // 收集符合条件的卡片
+      if (matchesSearch && matchesType && matchesService && matchesSpeaker && matchesSeries && matchesBook) {
+        filteredCards.push(element);
+      }
+    });
+
+    // 重置到第一页
+    currentPage = 1;
+    updatePagination();
+  }
+
+  // 更新分页显示
+  function updatePagination() {
+    const totalItems = filteredCards.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+    // 隐藏所有卡片
+    cards.forEach(card => {
+      (card as HTMLElement).style.display = 'none';
+    });
+
+    // 只显示当前页的卡片
+    for (let i = startIndex; i < endIndex; i++) {
+      filteredCards[i].style.display = 'block';
+    }
+
+    // 更新结果信息
+    if (totalItems === 0) {
+      resultsInfo.textContent = '沒有找到相關貼文';
+    } else {
+      resultsInfo.textContent = `顯示 ${startIndex + 1}-${endIndex} / 共 ${totalItems} 篇`;
+    }
+
+    // 更新分页按钮状态
+    prevPageBtn.disabled = currentPage === 1;
+    nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+
+    // 生成页码按钮
+    renderPageNumbers(totalPages);
+  }
+
+  // 渲染页码
+  function renderPageNumbers(totalPages: number) {
+    pageNumbers.innerHTML = '';
+    
+    if (totalPages <= 1) return;
+
+    // 最多显示7个页码
+    let startPage = Math.max(1, currentPage - 3);
+    let endPage = Math.min(totalPages, currentPage + 3);
+
+    if (currentPage <= 4) {
+      endPage = Math.min(7, totalPages);
+    }
+    if (currentPage > totalPages - 4) {
+      startPage = Math.max(1, totalPages - 6);
+    }
+
+    // 第一页
+    if (startPage > 1) {
+      addPageButton(1);
+      if (startPage > 2) {
+        pageNumbers.innerHTML += '<span class="page-ellipsis">...</span>';
+      }
+    }
+
+    // 中间页码
+    for (let i = startPage; i <= endPage; i++) {
+      addPageButton(i);
+    }
+
+    // 最后一页
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pageNumbers.innerHTML += '<span class="page-ellipsis">...</span>';
+      }
+      addPageButton(totalPages);
+    }
+  }
+
+  function addPageButton(page: number) {
+    const btn = document.createElement('button');
+    btn.className = `page-number ${page === currentPage ? 'active' : ''}`;
+    btn.textContent = page.toString();
+    btn.addEventListener('click', () => {
+      currentPage = page;
+      updatePagination();
+      postsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    pageNumbers.appendChild(btn);
+  }
+
+  // 上一页
+  prevPageBtn?.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      updatePagination();
+      postsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  // 下一页
+  nextPageBtn?.addEventListener('click', () => {
+    const totalPages = Math.ceil(filteredCards.length / itemsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      updatePagination();
+      postsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  // 初始化
+  updateAvailableFilters();
+  applyFilters();
+</script>
+
+<style>
+  .page-header {
+    background: url('/images/posts-bg.jpg') center/cover;
+    color: white;
+    padding: 8rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .page-header h1 {
+    font-size: 3rem;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  }
+
+  .page-header p {
+    font-size: 1.25rem;
+    opacity: 0.95;
+  }
+
+  .posts-section {
+    padding: 3rem 2rem;
+    background: var(--color-bg-main);
+  }
+
+  .container-full {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .search-bar {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .search-container {
+    display: flex;
+    gap: 0.5rem;
+    flex: 1;
+  }
+
+  .controls-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .advanced-filter-toggle {
+    padding: 0.75rem 1.5rem;
+    background: #2C5F8D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    white-space: nowrap;
+  }
+
+  .advanced-filter-toggle:hover {
+    background: #1E4A6B;
+  }
+
+  .sort-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .sort-container label {
+    font-weight: 600;
+    color: #333;
+  }
+
+  .sort-select {
+    padding: 0.75rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+
+  .sort-select:focus {
+    outline: none;
+    border-color: #2C5F8D;
+  }
+
+  /* 筛选器区域 */
+  .filters-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .filter-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .filter-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .filter-label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .search-input {
+    flex: 1;
+    padding: 0.875rem 1.25rem;
+    border: 2px solid var(--color-border);
+    border-radius: 24px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+
+  .search-btn {
+    padding: 0.875rem 1.5rem;
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background 0.3s;
+  }
+
+  .search-btn:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .filter-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1.25rem;
+    background: #f0f0f0;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    font-weight: 500;
+  }
+
+  .filter-btn:hover {
+    background: #e0e0e0;
+  }
+
+  .filter-btn.active {
+    background: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+  }
+
+  /* YouTube 风格网格布局 */
+  .youtube-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .video-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+
+  .video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .thumbnail-link {
+    display: block;
+    position: relative;
+    padding-top: 56.25%; /* 16:9 比例 */
+    overflow: hidden;
+    background: #f0f0f0;
+  }
+
+  .thumbnail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .video-card:hover .thumbnail {
+    transform: scale(1.05);
+  }
+
+  .thumbnail-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
+  }
+
+  .video-info {
+    padding: 1rem;
+  }
+
+  .video-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .video-title a {
+    color: #333;
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .video-title a:hover {
+    color: var(--color-accent);
+  }
+
+  .video-meta {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .video-meta .author {
+    font-weight: 600;
+  }
+
+  .video-description {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin: 0.5rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .video-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  .tag-badge {
+    padding: 0.25rem 0.75rem;
+    background: rgba(217, 137, 140, 0.1);
+    color: var(--color-accent);
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .tag-badge.speaker {
+    background: rgba(100, 149, 237, 0.1);
+    color: #6495ED;
+  }
+
+  .tag-badge.book {
+    background: rgba(34, 139, 34, 0.1);
+    color: #228B22;
+  }
+
+  .tag-badge.category {
+    background: rgba(217, 137, 140, 0.1);
+    color: var(--color-accent);
+  }
+
+  /* 分页控制样式 */
+  .pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 0;
+    padding: 1.25rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .items-per-page {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: #555;
+    font-weight: 500;
+  }
+
+  .items-select {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+
+  .items-select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+
+  .results-info {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 500;
+  }
+
+  .pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 2rem auto;
+    justify-content: center;
+  }
+
+  .page-btn {
+    padding: 0.625rem 1.25rem;
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .page-btn:hover:not(:disabled) {
+    background: var(--color-accent-hover);
+    transform: translateY(-2px);
+  }
+
+  .page-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .page-number {
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    background: white;
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-number:hover {
+    background: var(--color-accent);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .page-number.active {
+    background: var(--color-accent);
+    color: white;
+  }
+
+  .page-ellipsis {
+    padding: 0.5rem;
+    color: #999;
+    font-weight: 600;
+  }
+
+  /* YouTube Actions Section */
+  .youtube-actions {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #2C5F8D 0%, #1E4A6B 100%);
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .youtube-actions h2 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-youtube {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+    justify-content: center;
+  }
+
+  .btn-youtube .icon {
+    font-size: 1.8rem;
+  }
+
+  .btn-recordings {
+    background: white;
+    color: #2C5F8D;
+    border: 2px solid white;
+  }
+
+  .btn-recordings:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .btn-live {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-live:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  @media (max-width: 768px) {
+    .page-header h1 {
+      font-size: 2rem;
+    }
+
+    .page-header p {
+      font-size: 1rem;
+    }
+
+    .youtube-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .search-bar {
+      flex-direction: column;
+      padding: 1.25rem;
+      gap: 1rem;
+    }
+
+    .search-container {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    .search-btn {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+    }
+
+    .controls-right {
+      width: 100%;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .advanced-filter-toggle {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .sort-container {
+      width: 100%;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sort-container label {
+      font-size: 0.9rem;
+    }
+
+    .sort-select {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .filters-section {
+      padding: 1.25rem;
+    }
+
+    .filter-label {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .filter-buttons {
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      border-radius: 16px;
+    }
+
+    .pagination-controls {
+      padding: 1rem;
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .items-per-page {
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .items-select {
+      padding: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .results-info {
+      font-size: 0.85rem;
+    }
+
+    .pagination-nav {
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+    }
+
+    .page-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .page-number {
+      min-width: 2rem;
+      height: 2rem;
+      font-size: 0.85rem;
+    }
+
+    .video-info {
+      padding: 1rem;
+    }
+
+    .video-title {
+      font-size: 1rem;
+    }
+
+    .video-meta {
+      font-size: 0.8rem;
+    }
+
+    .video-description {
+      font-size: 0.85rem;
+    }
+
+    .youtube-actions {
+      padding: 3rem 1.5rem;
+    }
+
+    .youtube-actions h2 {
+      font-size: 1.75rem;
+    }
+
+    .section-description {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-youtube {
+      width: 100%;
+      max-width: 300px;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+    }
+  }
+</style>

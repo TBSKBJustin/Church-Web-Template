@@ -1,0 +1,359 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Gatherings - Church Name" lang="en">
+  <main>
+    <div class="page-header" style="background: url('/images/gathering-bg.jpg') center/cover;">
+      <div class="container">
+        <h1>Gatherings</h1>
+        <p>Join Our Worship Services</p>
+      </div>
+    </div>
+
+    <section class="gathering-section">
+      <div class="container">
+        <h2 class="section-title">Sunday Gatherings</h2>
+        
+        <div class="gathering-grid">
+          <!-- Prayer Meeting -->
+          <div class="gathering-card">
+            <h3>Prayer Meeting</h3>
+            <div class="details">
+              <p><strong>Time:</strong> 9:00 AM – 9:20 AM</p>
+              <p><strong>Language:</strong> Mandarin/English</p>
+            </div>
+          </div>
+
+          <!-- Sunday Worship -->
+          <div class="gathering-card highlight">
+            <h3>Sunday Worship</h3>
+            <div class="details">
+              <p><strong>Time:</strong> 9:30 AM – 10:45 AM</p>
+              <p><strong>Language:</strong> Mandarin/English</p>
+            </div>
+            <p class="description">
+              Sunday worship is our most important gathering each week. 
+              We worship God together and listen to His Word.
+            </p>
+          </div>
+
+          <!-- Sunday School -->
+          <div class="gathering-card">
+            <h3>Sunday School</h3>
+            <div class="details">
+              <p><strong>Time:</strong> 11:15 AM – 12:15 PM</p>
+              <p><strong>Language:</strong> Mandarin/English (Separate Classes)</p>
+            </div>
+          </div>
+
+          <!-- Youth -->
+          <div class="gathering-card">
+            <h3>Youth Fellowship</h3>
+            <div class="details">
+              <p><strong>Time:</strong> Same as Sunday School</p>
+              <p><strong>Language:</strong> English</p>
+            </div>
+          </div>
+
+          <!-- Children -->
+          <div class="gathering-card">
+            <h3>Children's Ministry</h3>
+            <div class="details">
+              <p><strong>Time:</strong> Same as Sunday School</p>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Weekday Gatherings</h2>
+        
+        <div class="special-gatherings">
+          <!-- Fellowship Dinner -->
+          <div class="special-section">
+            <h3>Fellowship Dinner</h3>
+            <div class="schedule-details">
+              <p><strong>Time:</strong> Last Friday of every month, 7:00 PM – 9:00 PM</p>
+              <p><strong>Location:</strong> Church</p>
+            </div>
+          </div>
+
+          <!-- Bible Study Class -->
+          <div class="special-section">
+            <h3>Bible Study Class</h3>
+            <div class="schedule-details">
+              <p><strong>Time:</strong> Every Wednesday, 7:00 PM – 8:30 PM</p>
+              <p><strong>Location:</strong> In-person/Online</p>
+            </div>
+          </div>
+
+          <!-- Small Group -->
+          <div class="special-section">
+            <h3>Small Groups</h3>
+            <div class="schedule-details">
+              <p><strong>Time:</strong> Varies by group</p>
+              <p><strong>Location:</strong> Various locations</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="address-section">
+          <h2>Church Location</h2>
+          <div class="address">
+            <p>[Your Church Address]</p>
+            <p>Phone: [Your Phone Number]</p>
+            <p>Email: church@example.com</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- YouTube Actions Section -->
+    <section class="youtube-actions">
+      <div class="container">
+        <h2>Watch Online</h2>
+        <p class="section-description">Can't attend in person? Join us online via YouTube</p>
+        <div class="action-buttons">
+          <a href="#" target="_blank" class="btn-youtube btn-recordings">
+            Watch Recordings
+          </a>
+          <a href="#" target="_blank" class="btn-youtube btn-live">
+            Watch Live Stream
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .page-header {
+    background: url('/images/gathering-bg.jpg') center/cover;
+    color: white;
+    padding: 8rem 2rem;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    font-size: 3rem;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .page-header p {
+    font-size: 1.25rem;
+  }
+
+  .gathering-section {
+    padding: 4rem 2rem;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    color: var(--color-accent);
+    text-align: center;
+    margin: 3rem 0 2rem 0;
+    font-size: 2rem;
+  }
+
+  .gathering-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .gathering-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    transition: all 0.3s;
+  }
+
+  .gathering-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .gathering-card.highlight {
+    border: 2px solid var(--color-accent);
+    background: linear-gradient(135deg, var(--color-bg-soft) 0%, #ffffff 100%);
+  }
+
+  .gathering-card h3 {
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+  }
+
+  .details {
+    margin-bottom: 1rem;
+  }
+
+  .details p {
+    color: var(--color-text-main);
+    margin: 0.5rem 0;
+    line-height: 1.8;
+  }
+
+  .description {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin-top: 1rem;
+    line-height: 1.6;
+  }
+
+  .special-gatherings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .special-section {
+    background: var(--color-bg-soft);
+    padding: 2rem;
+    border-radius: 12px;
+    transition: all 0.3s;
+  }
+
+  .special-section:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .special-section h3 {
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .schedule-details {
+    flex: 1;
+  }
+
+  .schedule-details p {
+    margin: 0.75rem 0;
+    line-height: 1.8;
+    color: var(--color-text-main);
+    font-size: 1rem;
+  }
+
+  .address-section {
+    text-align: center;
+    padding: 3rem;
+    background: var(--color-bg-soft);
+    border-radius: 12px;
+    margin-top: 3rem;
+  }
+
+  .address-section h2 {
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+  }
+
+  .address {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: var(--color-text-main);
+  }
+
+  .youtube-actions {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+    text-align: center;
+  }
+
+  .youtube-actions h2 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-description {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-youtube {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    justify-content: center;
+  }
+
+  .btn-recordings {
+    background: white;
+    color: var(--color-accent);
+    border: 2px solid white;
+  }
+
+  .btn-recordings:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .btn-live {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-live:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  @media (max-width: 768px) {
+    .gathering-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .special-section {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .youtube-actions h2 {
+      font-size: 1.75rem;
+    }
+
+    .section-description {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn-youtube {
+      width: 100%;
+      max-width: 300px;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+    }
+  }
+</style>
