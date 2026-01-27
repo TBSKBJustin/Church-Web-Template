@@ -1,21 +1,22 @@
 {
-  "name": "church-web-template",
-  "type": "module",
+  "name": "church-website-template",
+  "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "astro dev --host",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@astrojs/mdx": "^3.1.0",
-    "@astrojs/rss": "^4.0.0",
-    "astro": "^4.16.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.0",
-    "typescript": "^5.4.0"
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8"
   }
 }
