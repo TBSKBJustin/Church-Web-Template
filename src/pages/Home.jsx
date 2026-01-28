@@ -52,27 +52,6 @@ const Home = () => {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
-        <div style={{
-          position: 'absolute',
-          bottom: '40px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 10
-        }}>
-          <a href="#content" style={{
-            color: 'white',
-            fontSize: '14px',
-            textDecoration: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '8px',
-            animation: 'bounce 2s infinite'
-          }}>
-            <span>Scroll Down</span>
-            <span style={{ fontSize: '24px' }}>↓</span>
-          </a>
-        </div>
       </section>
 
       <div id="content">

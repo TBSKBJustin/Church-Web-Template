@@ -5,6 +5,7 @@ const Navbar = () => {
   const [isTransparent, setIsTransparent] = useState(true)
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const location = useLocation()
   const isHome = location.pathname === '/'
 
@@ -44,7 +45,20 @@ const Navbar = () => {
     <nav className={`navbar ${isHome && isTransparent ? 'transparent' : ''} ${!isVisible ? 'hidden' : ''}`}>
       <div className="nav-content">
         <Link to="/" className="nav-logo">Church</Link>
-        <ul className="nav-links">
+        
+        {/* Hamburger Menu Button for Mobile */}
+        <button 
+          className="hamburger"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span className={mobileMenuOpen ? 'active' : ''}></span>
+          <span className={mobileMenuOpen ? 'active' : ''}></span>
+          <span className={mobileMenuOpen ? 'active' : ''}></span>
+        </button>
+
+        {/* Desktop Navigation */}
+        <ul className="nav-links desktop-nav">
           <li 
             className="nav-dropdown"
             onMouseEnter={() => setAboutDropdownOpen(true)}
@@ -61,6 +75,31 @@ const Navbar = () => {
           <li><Link to="/give">Give</Link></li>
           <li><Link to="/contact">Contact Us</Link></li>
         </ul>
+
+        {/* Mobile Navigation */}
+        <div className={`mobile-nav ${mobileMenuOpen ? 'open' : ''}`}>
+          <ul className="mobile-nav-links">
+            <li>
+              <button 
+                className="mobile-dropdown-toggle"
+                onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
+              >
+                About
+                <span className={aboutDropdownOpen ? 'arrow open' : 'arrow'}>▼</span>
+              </button>
+              {aboutDropdownOpen && (
+                <ul className="mobile-dropdown">
+                  <li><Link to="/beliefs" onClick={() => setMobileMenuOpen(false)}>Beliefs</Link></li>
+                  <li><Link to="/leadership" onClick={() => setMobileMenuOpen(false)}>Leadership</Link></li>
+                  <li><Link to="/sermons" onClick={() => setMobileMenuOpen(false)}>Sermons</Link></li>
+                </ul>
+              )}
+            </li>
+            <li><Link to="/im-new-here" onClick={() => setMobileMenuOpen(false)}>I'm New Here</Link></li>
+            <li><Link to="/give" onClick={() => setMobileMenuOpen(false)}>Give</Link></li>
+            <li><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link></li>
+          </ul>
+        </div>
       </div>
     </nav>
   )
