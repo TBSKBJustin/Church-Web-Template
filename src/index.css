@@ -59,8 +59,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-content {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
   padding: 20px 40px;
   display: flex;
   justify-content: space-between;
@@ -73,6 +72,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   color: var(--color-dark);
   text-decoration: none;
+  margin-right: auto;
 }
 
 .navbar.transparent .nav-logo {
@@ -83,6 +83,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   gap: 32px;
   list-style: none;
+  margin-left: auto;
 }
 
 .nav-links a {
