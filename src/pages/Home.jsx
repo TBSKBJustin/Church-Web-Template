@@ -24,13 +24,65 @@ const Home = () => {
 
   return (
     <>
-      <Hero 
-        title="Glorifying God as a community of disciples"
-        primaryButtonText="I'm New Here"
-        primaryButtonLink="/im-new-here"
-        secondaryButtonText="Learn More"
-        secondaryButtonLink="/about"
-      />
+      {/* Spacer for navbar */}
+      <div style={{ 
+        height: '80px', 
+        background: 'white' 
+      }} />
+      
+      {/* Full-width Video Section */}
+      <section style={{
+        position: 'relative',
+        width: '100%',
+        height: '100vh',
+        overflow: 'hidden',
+        paddingTop: '0'
+      }}>
+        <iframe
+          style={{
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            border: 'none'
+          }}
+          src="https://www.youtube.com/embed/K6WmQ1LkVog?autoplay=1&mute=1&loop=1&playlist=K6WmQ1LkVog&controls=0&showinfo=0&rel=0&modestbranding=1"
+          title="Church Welcome Video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+        <div style={{
+          position: 'absolute',
+          bottom: '40px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 10
+        }}>
+          <a href="#content" style={{
+            color: 'white',
+            fontSize: '14px',
+            textDecoration: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '8px',
+            animation: 'bounce 2s infinite'
+          }}>
+            <span>Scroll Down</span>
+            <span style={{ fontSize: '24px' }}>↓</span>
+          </a>
+        </div>
+      </section>
+
+      <div id="content">
+        <Hero 
+          title="Glorifying God as a community of disciples"
+          primaryButtonText="I'm New Here"
+          primaryButtonLink="/im-new-here"
+          secondaryButtonText="Learn More"
+          secondaryButtonLink="/about"
+        />
 
       <Section title="When?">
         <p>Worship Gatherings | Sundays at 9AM & 11AM</p>
@@ -72,6 +124,7 @@ const Home = () => {
       <Section title="Frequently Asked Questions" gray>
         <FAQ items={faqItems} />
       </Section>
+      </div>
     </>
   )
 }

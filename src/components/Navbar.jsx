@@ -4,25 +4,44 @@ import { useEffect, useState } from 'react'
 const Navbar = () => {
   const [isTransparent, setIsTransparent] = useState(true)
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
   const location = useLocation()
   const isHome = location.pathname === '/'
 
   useEffect(() => {
+    let lastScroll = 0
+    
     const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      
       if (isHome) {
-        setIsTransparent(window.scrollY < 100)
+        setIsTransparent(false)
       } else {
         setIsTransparent(false)
       }
+
+      // Show/hide navbar based on scroll direction
+      if (currentScrollY < 10) {
+        // Always show at the top
+        setIsVisible(true)
+      } else if (currentScrollY > lastScroll && currentScrollY > 80) {
+        // Scrolling down - hide navbar
+        setIsVisible(false)
+      } else if (currentScrollY < lastScroll) {
+        // Scrolling up - show navbar
+        setIsVisible(true)
+      }
+
+      lastScroll = currentScrollY
     }
 
     handleScroll()
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isHome])
 
   return (
-    <nav className={`navbar ${isHome && isTransparent ? 'transparent' : ''}`}>
+    <nav className={`navbar ${isHome && isTransparent ? 'transparent' : ''} ${!isVisible ? 'hidden' : ''}`}>
       <div className="nav-content">
         <Link to="/" className="nav-logo">Church</Link>
         <ul className="nav-links">
